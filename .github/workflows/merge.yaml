@@ -51,7 +51,7 @@ jobs:
           mkdir -p target_repo/proto/common
 
           echo "so############################################"
-          git rev-parse HEAD
+          git -C source_repo rev-parse HEAD
           echo "so############################################"
 
 
