@@ -57,7 +57,7 @@ jobs:
 
           echo "###########0000000000###############################"
           cd source_repo
-          git checkout head~2
+          git checkout HEAD~2
           ls .git/
           # git  diff --name-status HEAD~1 HEAD~2 | grep -E '^[D]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} echo "target_repo/api-proto/proto/common/{}"
 
