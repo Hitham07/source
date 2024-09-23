@@ -31,7 +31,7 @@ jobs:
       - name: Checkout target repository 'kuberex-api'
         uses: actions/checkout@v2
         with:
-          repository: Hitham07/target
+          repository: hitham07/target
           token: ${{ secrets.GITHUB_TOKEN }}
           path: target_repo
         env:
@@ -54,8 +54,8 @@ jobs:
       - name: Commit and push changes
         run: |
           cd target_repo
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "you@example.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
           git add .
           git commit -m "update api protos of user-service"
           git push origin main
