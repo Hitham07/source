@@ -58,7 +58,7 @@ jobs:
 
           echo "###########0000000000###############################"
 
-          git -C source_repo  diff --name-status HEAD~1 HEAD~2 | grep -E '^[D]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} echo "target_repo/api-proto/proto/common/{}"
+          git -C source_repo  diff --name-status HEAD~1 | grep -E '^[D]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} echo "target_repo/api-proto/proto/common/{}"
 
           # # git -C source_repo diff --name-status HEAD~1 HEAD | grep -E '^[D]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} rm -rf "target_repo/api-proto/proto/common/{}"
 
