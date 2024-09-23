@@ -47,8 +47,8 @@ jobs:
           # cp -Rf source_repo/proto/services/* target_repo/api-proto/proto/services/pki_service/
 
 
-          mkdir -p target_repo/api-proto/proto/common
-          cp -Rf source_repo/proto/* target_repo/api-proto/proto/common 2> /dev/null || true
+          mkdir -p target_repo/proto/common
+          cp -Rf source_repo/proto/common/* target_repo/proto/common 2> /dev/null || true
 
 
       - name: Commit and push changes
