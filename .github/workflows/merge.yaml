@@ -50,13 +50,19 @@ jobs:
           mkdir -p target_repo/proto/common
 
           echo "##########################################"
-          ls  target_repo/api-proto/proto/common/tool/v1
+          ls  source_repo/proto/common/tool/v1
           echo "##########################################"
+
+
+
+          echo "###########0000000000###############################"
+
+          git -C source_repo diff --name-status HEAD | grep -E '^[MD]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} echo "target_repo/api-proto/proto/common/{}"
 
           git -C source_repo diff --name-status HEAD | grep -E '^[MD]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} rm -rf "target_repo/api-proto/proto/common/{}"
 
           echo "##########################################"
-          ls  target_repo/api-proto/proto/common/tool/v1
+          ls  source_repo/proto/common/tool/v1
           echo "##########################################"
 
           cp -Rf source_repo/proto/common/* target_repo/api-proto/proto/common 2> /dev/null || true
