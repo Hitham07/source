@@ -55,6 +55,7 @@ jobs:
         run: |
           cd target_repo
           git config --global user.name "${{ github.actor }}"
+          git config --global user.email "you@example.com"
           git add .
           git commit -m "update api protos of user-service"
           git push origin main
