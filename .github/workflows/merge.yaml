@@ -49,7 +49,7 @@ jobs:
 
           mkdir -p target_repo/proto/common
 
-          git -C diff target_repo --name-status HEAD | grep -E '^[MD]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} rm "target_repo/api-proto/proto/common/{}"
+          git -C target_repo diff --name-status HEAD | grep -E '^[MD]' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort | uniq | xargs -I {} rm "target_repo/api-proto/proto/common/{}"
           cp -Rf source_repo/proto/common/* target_repo/api-proto/proto/common 2> /dev/null || true
 
 
