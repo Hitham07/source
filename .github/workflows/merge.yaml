@@ -27,7 +27,7 @@ jobs:
         with:
           repository: ${{ github.repository }}
           path: source_repo
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Checkout target repository 'kuberex-api'
         uses: actions/checkout@v4
