@@ -50,6 +50,9 @@ jobs:
 
           mkdir -p target_repo/proto/common
 
+          echo "so############################################"
+          git rev-parse HEAD
+          echo "so############################################"
 
 
           git -C source_repo diff --name-status HEAD~1 | grep -E '^(D|R)' | awk '{print $2}' | awk -F'common/|/v1' '{print $2}' | sort  | xargs -I {} rm -rf "target_repo/api-proto/proto/common/{}"
