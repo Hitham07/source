@@ -1,0 +1,59 @@
+name: Copy Protos to Kuberex API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'proto/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write  # Allows writing to the repository (for pushing changes)
+
+jobs:
+  copy-protos-to-kuberex-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repository 'user-service'
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+          path: source_repo
+
+      - name: Checkout target repository 'kuberex-api'
+        uses: actions/checkout@v2
+        with:
+          repository: Hitham07/target
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: target_repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy directory
+        run: |
+          # # clean up the target directory
+          # rm -rf target_repo/api-proto/proto/services/pki_service
+          # mkdir -p target_repo/api-proto/proto/services/pki_service
+          # # redirect stderr to /dev/null to avoid error message because the common directory is empty
+          # cp -Rf source_repo/proto/common/* target_repo/api-proto/proto/common 2> /dev/null || true
+          # cp -Rf source_repo/proto/services/* target_repo/api-proto/proto/services/pki_service/
+
+
+          mkdir -p target_repo/api-proto/proto/common
+          cp -Rf source_repo/proto/* target_repo/api-proto/proto/common 2> /dev/null || true
+
+
+      - name: Commit and push changes
+        run: |
+          cd target_repo
+          git config --global user.name "${{ github.actor }}"
+          git add .
+          git commit -m "update api protos of user-service"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
