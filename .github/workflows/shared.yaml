@@ -15,5 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run build
+        env:
+          EXAMPLE_ENV_VAR: ${{ inputs.example_input }}
         run: |
-          echo "Hello, ${{ github.actor }}."
+          echo "Hello, $EXAMPLE_ENV_VAR!"
