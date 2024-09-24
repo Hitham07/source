@@ -4,6 +4,12 @@ on:
   repository_dispatch:
     types: [custom_event]
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+
 jobs:
   run:
     runs-on: ubuntu-latest
