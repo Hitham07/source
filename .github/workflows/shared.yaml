@@ -6,7 +6,7 @@ on:
 
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.run_id }}
+  group: sequential-workflow
   cancel-in-progress: false
 
 
