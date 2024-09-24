@@ -1,29 +1,130 @@
-name: CI Pipeline
+name: Repository Dispatch Example
 
 on:
-  push:
-    branches:
-      - main
+  repository_dispatch:
+    types: [custom_event]
+
+  
+
+# concurrency:
+#   group: sequential-workflow
+#   cancel-in-progress: false
+
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+
+      - name: build the image 
+        run: |
+          echo "Pushing protos to github"
+          sleep 5
+          echo "Done waiting"
+          echo "Pushing protos to github"
+
+  run:
+    runs-on: ubuntu-latest
+    needs: build
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+    steps:
+      - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Build
-        run: |
-          echo "Building the project..."
-          # Your build command here
-          # Simulate success or failure
-          exit 1  # Uncomment to simulate failure for testing
+      - name: Echo message
+        run: echo "Received a custom dispatch event!"
 
-      - name: Print Status
+      - name: Print Client Payload
         run: |
-          if [ $? -eq 0 ]; then
-            echo "Pipeline Status: SUCCESS"
-          else
-            echo "Pipeline Status: FAILURE"
-          fi
+          echo "Client Payload:"
+          echo "${{ toJson(github.event.client_payload) }}"
+
+      - name: Push protos to github
+        run: |
+          echo "Pushing protos to github"
+          sleep 10
+          echo "Done waiting"
+          echo "Pushing protos to github"
+
+
+  check:
+    runs-on: ubuntu-latest
+    needs: run
+    if: always()
+
+    steps:
+      - name: check the image
+        run: |
+          echo "Pushing protos to github"
+          echo ${{ github.action_status }}
+          sleep 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # build:
+        #   runs-on: ubuntu-20.04
+        #   steps:
+        #     - name: Wait for previous runs to complete
+        #       id: wait_for_previous_runs
+        #       run: |
+        #         IN_PROGRESS_RUNS=$(curl -s -H "Authorization: Bearer ${{ secrets.test }}" \
+        #                             -H "Accept: application/vnd.github.v3+json" \
+        #                             "https://api.github.com/repos/${{ github.repository }}/actions/runs?status=in_progress" \
+        #                             | jq -r '.workflow_runs[].id | select(. != ${{ github.run_id }})')
+      
+        #         echo "##########################################################################################"
+        #         echo "In-progress runs: $IN_PROGRESS_RUNS"
+        #         echo "##########################################################################################"
+      
+        #         if [ -z "$IN_PROGRESS_RUNS" ]; then
+        #           echo "No previous runs in progress. Proceeding with deployment."
+        #         else
+        #           echo "Waiting for previous runs to complete..."
+        #           echo "::set-output name=in_progress_runs::$IN_PROGRESS_RUNS"
+        #         fi
+      
+        #     - name: Store in-progress runs
+        #       if: steps.wait_for_previous_runs.outputs.in_progress_runs != ''
+        #       id: store_in_progress_runs
+        #       run: echo "::set-output name=in_progress_runs::${{ steps.wait_for_previous_runs.outputs.in_progress_runs }}"
+      
+        #     - name: Check if stored in-progress runs are completed
+        #       if: steps.wait_for_previous_runs.outputs.in_progress_runs != ''
+        #       id: check_in_progress_runs
+        #       run: |
+        #         while true; do
+        #           STORED_RUNS="${{ steps.store_in_progress_runs.outputs.in_progress_runs }}"
+        #           COMPLETED_RUNS=$(curl -s -H "Authorization: Bearer ${{ secrets.test }}" \
+        #                             -H "Accept: application/vnd.github.v3+json" \
+        #                             "https://api.github.com/repos/${{ github.repository }}/actions/runs?&status=completed" \
+        #                             | jq -r '.workflow_runs[].id | select(. != ${{ github.run_id }})')
+        #           if [ "$(comm -23 <(echo "$STORED_RUNS" | tr ' ' '\n' | sort) <(echo "$COMPLETED_RUNS" | tr ' ' '\n' | sort) | wc -l)" -eq 0 ]; then
+        #             echo "All stored in-progress runs completed. Proceeding with deployment."
+        #             break
+        #           else
+        #             echo "Waiting for stored in-progress runs to complete..."
+        #             sleep 30
+        #           fi
+        #         done
