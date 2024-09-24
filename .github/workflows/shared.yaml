@@ -20,7 +20,7 @@ jobs:
       - name: build the image 
         run: |
           echo "Pushing protos to github"
-          sleep 10
+          sleep 5
           echo "Done waiting"
           echo "Pushing protos to github"
 
@@ -45,7 +45,7 @@ jobs:
       - name: Push protos to github
         run: |
           echo "Pushing protos to github"
-          sleep 40
+          sleep 10
           echo "Done waiting"
           echo "Pushing protos to github"
 
