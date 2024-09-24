@@ -3,10 +3,7 @@ name: Repository Dispatch Example
 on:
   repository_dispatch:
     types: [custom_event]
-  workflow_run:
-    workflows: [Repository Dispatch Example]
-    types:
-      - completed
+
   
 
 # concurrency:
