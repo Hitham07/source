@@ -15,8 +15,24 @@ on:
 
 
 jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: build the image 
+        run: |
+          echo "Pushing protos to github"
+          sleep 10
+          echo "Done waiting"
+          echo "Pushing protos to github"
+
   run:
     runs-on: ubuntu-latest
+    needs: build
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -29,14 +45,12 @@ jobs:
           echo "Client Payload:"
           echo "${{ toJson(github.event.client_payload) }}"
 
-      - name: wait for 120 seconds
+      - name: Push protos to github
         run: |
-          echo "Waiting for 120 seconds"
-          sleep 120
+          echo "Pushing protos to github"
+          sleep 40
           echo "Done waiting"
-
-
-
+          echo "Pushing protos to github"
 
 
         # build:
