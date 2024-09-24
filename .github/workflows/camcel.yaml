@@ -1,0 +1,14 @@
+name: cancel checker
+
+on:
+  workflow_run:
+    workflows: ["Repository Dispatch Example"]
+    types:
+      - completed
+
+jobs:
+  run_if_canceled:
+    if: ${{ github.event.workflow_run.conclusion == 'cancelled' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Workflow B was canceled, triggering Workflow A."
