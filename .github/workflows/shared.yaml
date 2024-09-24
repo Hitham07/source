@@ -68,6 +68,6 @@ jobs:
 
       - name: wait for 40 seconds
         run: |
-          echo "Waiting for 40 seconds"
+          echo "Waiting for 120 seconds"
           sleep 5
           echo "Done waiting"
