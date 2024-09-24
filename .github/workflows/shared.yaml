@@ -55,3 +55,18 @@ jobs:
         run: echo "Job status is $111111111111111111"
       
 
+
+  check:
+    runs-on: ubuntu-latest
+    needs: run
+    if: cancelled()
+
+    steps:
+      - name: check the image
+        run: |
+          if [ "${{ needs.run.result }}" == "cancelled" ]; then
+            echo "Job was successful1111111111111111111111111111"
+          else
+            echo "Job was not successful"
+          fi
+
