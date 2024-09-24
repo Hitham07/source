@@ -50,6 +50,38 @@ jobs:
           echo "Pushing protos to github"
 
 
+  check:
+    runs-on: ubuntu-latest
+    needs: run
+    if: ${{ needs.run.conclusion == 'cancelled' }}
+
+    steps:
+      - name: check the image
+        run: |
+          echo "Pushing protos to github"
+          sleep 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # build:
         #   runs-on: ubuntu-20.04
         #   steps:
