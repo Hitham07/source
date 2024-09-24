@@ -1,21 +1,20 @@
-name: Shared Workflow
+name: Repository Dispatch Example
 
 on:
-  workflow_call:
-    inputs:
-      example_input:
-        required: false
-        type: string
+  repository_dispatch:
+    types: [custom_event]
 
 jobs:
-  build:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Run build
-        env:
-          EXAMPLE_ENV_VAR: ${{ inputs.example_input }}
+      - name: Echo message
+        run: echo "Received a custom dispatch event!"
+
+      - name: Print Client Payload
         run: |
-          echo "Hello, $EXAMPLE_ENV_VAR!"
+          echo "Client Payload:"
+          echo "${{ toJson(github.event.client_payload) }}"

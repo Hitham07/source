@@ -1,0 +1,21 @@
+name: Shared Workflow
+
+on:
+  workflow_call:
+    inputs:
+      example_input:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run build
+        env:
+          EXAMPLE_ENV_VAR: ${{ inputs.example_input }}
+        run: |
+          echo "Hello, $EXAMPLE_ENV_VAR!"
