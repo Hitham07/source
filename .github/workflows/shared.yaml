@@ -1,7 +1,9 @@
 name: Repository Dispatch Example
 
 on:
-  repository_dispatch
+  repository_dispatch:
+    types: [custom_event]
+
 jobs:
   run:
     runs-on: ubuntu-latest
