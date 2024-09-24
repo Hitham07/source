@@ -55,21 +55,22 @@ jobs:
         id: export_job_status
         run: echo "::set-output name=job_status::${{ job.status }}"
 
-      - name: Check the job status
-        if: always()
-        run: echo "Job status is $111111111111111111"
+      # - name: Check the job status
+      #   if: always()
+      #   run: echo "Job status is $111111111111111111"
         
 
 
-  # check:
-  #   runs-on: ubuntu-latest
-  #   if: always()
+  check:
+    runs-on: ubuntu-latest
+    needs: run
+    if: ${{ needs.run.result == 'cancelled' }}
 
-  #   steps:
-  #     - name: check the image
-  #       run: |
-  #         echo "Pushing protos to github"
-  #         sleep 10
+    steps:
+      - name: check the image
+        run: |
+          echo "Pushing protos to github"
+          sleep 10
 
 
 
