@@ -30,6 +30,8 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}
       cancel-in-progress: true
+    outputs:
+      job_status: ${{ steps.export_job_status.outputs.job_status }}  
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -49,6 +51,11 @@ jobs:
           echo "Done waiting"
           echo "Pushing protos to github"
 
+      - name: export the job status so it used in another job
+        id: export_job_status
+        run: echo "::set-output name=job_status::${{ job.status }}"
+        
+
 
   check:
     runs-on: ubuntu-latest
@@ -59,7 +66,7 @@ jobs:
       - name: check the image
         run: |
           echo "Pushing protos to github"
-          echo " action is : ${{ needs.run.job.status }} "
+          echo " action is : ${{ needs.run.job_status }} "
           sleep 10
 
 
