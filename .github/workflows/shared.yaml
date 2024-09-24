@@ -59,7 +59,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     needs: run
-    if: cancelled()
+    if: ${{ cancelled() }}
 
     steps:
       - name: check the image
