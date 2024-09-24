@@ -71,8 +71,8 @@ jobs:
           echo "Client Payload:"
           echo "${{ toJson(github.event.client_payload) }}"
 
-      - name: wait for 40 seconds
+      - name: wait for 120 seconds
         run: |
           echo "Waiting for 120 seconds"
-          sleep 5
+          sleep 120
           echo "Done waiting"
