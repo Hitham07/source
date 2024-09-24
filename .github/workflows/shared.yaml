@@ -60,7 +60,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     needs: run
-    if:  needs.run.result  == 'cancelled'
+    if: cancelled()
+
     steps:
       - name: check the image
         run: |
