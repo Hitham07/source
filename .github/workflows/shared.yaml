@@ -59,12 +59,8 @@ jobs:
       - name: check the image
         run: |
           echo "Pushing protos to github"
-          echo " action is : ${{ github.action_status }} "
+          echo " action is : ${{ needs.run.job.status }} "
           sleep 10
-
-
-
-
 
 
 
