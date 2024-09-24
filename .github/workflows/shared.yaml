@@ -59,14 +59,12 @@ jobs:
 
   check:
     runs-on: ubuntu-latest
-    needs: run
     if: cancelled()
 
     steps:
       - name: check the image
         run: |
           echo "Pushing protos to github"
-          echo " action is : ${{ needs.run.result }} "
           sleep 10
 
 
